@@ -1,0 +1,99 @@
+{% extends "tweet_base.html" %}
+{% load recommended %}
+<style>
+#tweet-container {
+
+}
+</style>
+
+{% block script %}
+<script>
+$(document).ready(function(){
+  loadTweetContainer("tweet-container")
+});
+</script>
+{% endblock script %}
+
+{% block left_content %}
+
+      <div class="left side-menu">
+                <button type="button" class="button-menu-mobile button-menu-mobile-topbar open-left waves-effect">
+                    <i class="ion-close"></i>
+                </button>
+
+                <!-- LOGO -->
+                <div class="topbar-left">
+                    <div class="text-center">
+                        <a href="#" class="logo"><img src="static/assets/images/logo.png" height="24" alt="logo"></a>
+                    </div>
+                </div>
+
+                <div class="sidebar-inner slimscrollleft">
+
+                    <div class="user-details">
+                        
+                        <div class="user-info">
+                            <h4 class="font-16">{{ request.user }}</h4>
+                            <span class="text-muted user-status"><i class="fa fa-dot-circle-o text-success"></i> Online</span>
+                        </div>
+                    </div>
+
+                    <div id="sidebar-menu">
+                        <ul>
+                            <li class="menu-title">Main</li>
+
+                            <li>
+                                <a href="/" class="waves-effect">
+                                    <i class="ti-home"></i>
+                                    <span> Dashboard <span class="badge badge-primary pull-right">3</span></span>
+                                </a>
+                            </li>
+
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="ti-light-bulb"></i> <span> Recomended Users </span> <span class="pull-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                                <ul class="list-unstyled">
+                                    {% recommended request.user %}
+                                    
+                                </ul>
+                            </li>
+                        
+                    
+
+
+                        </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                </div> <!-- end sidebarinner -->
+            </div>
+
+
+{% endblock%}
+
+
+{% block content %}
+
+   
+
+    <div class='row'>
+
+
+        <div class='col-sm-9 '>
+             {% if not request.GET.q %}
+                <div class=''>
+                    
+                    {% include "tweets/form.html" with form=create_form action_url=create_url btn_title='Tweet' form_class='tweet-form' %}
+
+                </div>
+                <hr/>
+            {% endif %}
+
+          <div id='tweet-container' data-url='/api/tweet/'>
+            
+          </div>
+          <a href='#' id='loadmore'>Load More Tweets</a>
+
+
+        </div>
+    </div>
+
+{% endblock content %}
